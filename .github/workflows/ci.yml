@@ -36,6 +36,6 @@ jobs:
           tags: containerize-sample:ci
 
       - name: Lint Dockerfile with hadolint
-        uses: hadolint/hadolint-action@v2
+        uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
