@@ -1,47 +1,41 @@
 name: CI
-on:
-push:
-branches: ["main", "master"]
-pull_request:
-branches: ["main"]
 
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-build-and-lint:
-runs-on: ubuntu-latest
+  build-and-lint:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-steps:
-- name: Checkout
-uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
+      - name: Install dependencies
+        working-directory: ./app
+        run: npm ci
 
-- name: Set up Node.js
-uses: actions/setup-node@v4
-with:
-node-version: '18'
+      - name: Run linter
+        working-directory: ./app
+        run: npm run lint
 
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: containerize-sample:ci
 
-- name: Install dependencies
-working-directory: ./app
-run: npm ci
-
-
-- name: Run linter
-working-directory: ./app
-run: npm run lint
-
-
-- name: Build Docker image
-uses: docker/build-push-action@v4
-with:
-context: .
-file: ./Dockerfile
-push: false
-tags: containerize-sample:ci
-
-
-- name: Lint Dockerfile with hadolint
-uses: hadolint/hadolint-action@v2
-with:
-dockerfile: Dockerfile
+      - name: Lint Dockerfile with hadolint
+        uses: hadolint/hadolint-action@v2
+        with:
+          dockerfile: Dockerfile
