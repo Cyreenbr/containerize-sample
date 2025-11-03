@@ -1,15 +1,25 @@
-# Containerize-sample
+# Containerize Sample App
+
+A simple Node.js app containerized with Docker and automated using GitHub Actions CI.
+
+---
+
+##  Project Overview
+
+This project demonstrates basic **DevOps practices**:
+
+- Containerization with a **multi-stage Dockerfile**
+- Local orchestration with **Docker Compose**
+- Continuous Integration (CI) using **GitHub Actions**
 
 
-Démonstration : containeriser une simple API Express, fournir Dockerfile multi-stage, docker-compose, manifest k8s et CI GitHub Actions.
+---
 
+##  Setup & Run Locally
 
-## Setup local
-
-
-1. Build & run with Docker Compose
-
-
+### Install dependencies
 ```bash
-docker compose up --build
-# puis ouvrir http://localhost:3000
+cd app
+npm install
+npm run lint     
+npm start
